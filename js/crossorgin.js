@@ -34,19 +34,6 @@ define(["common"], function() {
 	$.ibo.CompanyMarketSrvUrl = $.ibo.getAppWebUrl() + "/CompanyMarketService";
 	//------------企业端 end --------------------------------------
 
-	//------------办办端--------------------------------------
-	//办办端-基础服务
-	$.ibo.BanbanBaseSrvUrl = $.ibo.getAppWebUrl() + "/BanbanBaseService";
-	//办办端-工作流服务组件
-	$.ibo.BanbanFlowSrvUrl = $.ibo.getAppWebUrl() + "/BanbanFlowService";
-	//企业端-营销推广服务组件
-	$.ibo.BanbanMarketSrvUrl = $.ibo.getAppWebUrl() + "/BanbanMarketService";
-	//------------办办端 end --------------------------------------
-
-	//系统应用服务器地址
-	$.ibo.ApplicationWebUrl = $.ibo.getAppWebUrl() + "/AppWeb";
-	//营销图片地址
-	$.ibo.ApplicationFormFlowUrl = $.ibo.getAppWebUrl() + "/FormFlow";
 	//登陆页面地址
 	var loginViewUrl = "../login/index.html?extflag=" + Math.random();
 

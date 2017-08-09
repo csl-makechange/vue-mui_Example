@@ -16,21 +16,23 @@
 
 	<body>
 		<div id="home" class="mui-content" style="padding-top: 0 !important;">
-			<!--数据列表-->
-			<ul class="mui-table-view" style="margin-top: 0;">
-				<li v-cloak class="mui-table-view-cell mui-media" v-for="item in items">
-					<a href="javascript:;" :data-guid="item.guid" @tap="open_detail(item)">
-						<img class="mui-media-object mui-pull-left" :src="item.cover">
-						<div class="mui-media-body">
-							<div class="mui-ellipsis-2">{{item.title}}</div>
-						</div>
-						<div class="meta-info">
-							<div class="author">{{item.author}}</div>
-							<div class="time">{{item.time}}</div>
-						</div>
-					</a>
-				</li>
-			</ul>
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view" style="margin-top: 0;">
+					<li v-cloak class="mui-table-view-cell mui-media" v-for="item in items">
+						<a href="javascript:;" :data-guid="item.guid" @tap="open_detail(item)">
+							<img class="mui-media-object mui-pull-left" :src="item.cover">
+							<div class="mui-media-body">
+								<div class="mui-ellipsis-2">{{item.title}}</div>
+							</div>
+							<div class="meta-info">
+								<div class="author">{{item.author}}</div>
+								<div class="time">{{item.time}}</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</body>
 	<script>
