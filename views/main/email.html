@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta content="yes" name="apple-touch-fullscreen" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>邮件</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<script src="../../js/requirejs2.0.min.js"></script>
+		<script src="../../js/requirejs.config.js"></script>
+	</head>
+
+	<body>
+		<div id="email" class="mui-content" style="padding-top: 0 !important;">
+			<div_h1 msg1="邮件1"></div_h1>
+			<div_h2 v-for="item in msg" v-bind:msg2="item" :key="item.id" @click_event="click_parent"></div_h2>
+			<hello-world></hello-world>
+		</div>
+		<script type="text/x-handlebars-template" id="hello-world-template">
+			<p>Hello hello hello</p>
+		</script>
+	</body>
+	<script>
+		require(['common'], function() {
+			var Vue = require("vue");
+			Vue.component('div_h1', {
+				template: '<h1>{{msg1}}</h1>',
+				props: {
+					msg1: {
+						type: String,
+						required: true,
+						default: '邮件1'
+					}
+				}
+			});
+			new Vue({
+				el: "#email",
+				data: {
+					msg: [1, 2, 3, 4, 5]
+				},
+				components: {
+					'div_h2': {
+						template: '<h2 @tap="click_event">{{msg2}}</h2>',
+						props: ['msg2'],
+						data: function() {
+							return {
+								abc: ""
+							}
+						},
+						methods: {
+							click_event: function() {
+								mui.toast("h1_click");
+								this.$emit('click_event');
+							},
+						},
+						created: function() {
+							this.$on("click_event", function() {
+                                console.log("h2_click");
+							});
+						}
+					},
+					'hello-world':{
+						template: '#hello-world-template'
+					}
+				},
+				methods: {
+					click_parent: function() {
+						mui.toast("parent_click")
+					}
+				}
+			});
+		});
+	</script>
+
+</html>

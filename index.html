@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta content="yes" name="apple-touch-fullscreen" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>首页</title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/base.css" />
+		<script src="js/requirejs2.0.min.js"></script>
+		<script src="js/requirejs.config.js"></script>
+	</head>
+
+	<body>
+
+	</body>
+	<script>
+		requirejs.config({
+			"baseUrl": "",
+		});
+		require(['common', "nativeUI", "userInfo"], function() {
+			var $nativeUI = require('nativeUI');
+			var $userInfo = require('userInfo');
+			mui.init();
+			//跳转页面
+			function loadView(type) {
+				var id = "";
+				var loadurl = "";
+				if(type == 1) { //跳转主页面
+					id = "main_index";
+					loadurl = "views/main/index.html";
+				} else if(type == 2) { //跳转登录页
+					loadurl = "views/login/index.html";
+				} else if(type == 3) { //引导页
+					loadurl = "views/start/index.html";
+				}
+				var view = mui.openWindow({
+					id: (id != "" ? id : loadurl),
+					url: loadurl,
+					styles: {
+						popGesture: 'none',
+						render:"always"
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+				if(type != 3) {
+					view.addEventListener("show", function() {
+						plus.navigator.closeSplashscreen();
+					});
+				}
+			}
+			mui.ready(function() {
+				if(localStorage.getItem("$.guidflag")) {
+					if($userInfo.isLogin()) {
+						$nativeUI.waiting("跳转中...", 1000 * 30, function() {
+							loadView(2);
+						});
+						loadView(1);
+					} else {
+						loadView(2);
+					}
+				} else {
+					loadView(3);
+				}
+			});
+		});
+	</script>
+
+</html>

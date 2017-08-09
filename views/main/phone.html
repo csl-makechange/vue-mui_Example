@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta content="yes" name="apple-touch-fullscreen" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>电话</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<script src="../../js/requirejs2.0.min.js"></script>
+		<script src="../../js/requirejs.config.js"></script>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="phone" class="mui-content mui-scroll-wrapper" style="padding-top: 0 !important;">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li v-cloak class="mui-table-view-cell" v-for="item in items" @tap="click_detail">
+						<a class="mui-navigate-right">{{item.name}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script>
+		require(['common'], function() {
+			var Vue = require("vue");
+			var phone = new Vue({
+				el: "#phone",
+				data: {
+					items: [{
+						name: 123
+					}, {
+						name: 456
+					}, {
+						name: 789
+					}]
+				},
+				methods: {
+					click_detail: function() {
+						mui.toast("click");
+					}
+				},
+				mounted:function(){
+					this.items.push({name:2000});
+				}
+			});
+			phone.items.push({name:1000});
+			console.log(phone.items);
+		});
+	</script>
+
+</html>

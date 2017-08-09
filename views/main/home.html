@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta content="yes" name="apple-touch-fullscreen" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>主页</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<script src="../../js/requirejs2.0.min.js"></script>
+		<script src="../../js/requirejs.config.js"></script>
+	</head>
+
+	<body>
+		<div id="home" class="mui-content" style="padding-top: 0 !important;">
+			<!--数据列表-->
+			<ul class="mui-table-view" style="margin-top: 0;">
+				<li v-cloak class="mui-table-view-cell mui-media" v-for="item in items">
+					<a href="javascript:;" :data-guid="item.guid" @tap="open_detail(item)">
+						<img class="mui-media-object mui-pull-left" :src="item.cover">
+						<div class="mui-media-body">
+							<div class="mui-ellipsis-2">{{item.title}}</div>
+						</div>
+						<div class="meta-info">
+							<div class="author">{{item.author}}</div>
+							<div class="time">{{item.time}}</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		require(['common'], function() {
+			var Vue = require("vue");
+			var count = 0;
+			var home = new Vue({
+				el: "#home",
+				data: {
+					items: [{
+						guid: 123,
+						title: "标题123",
+						author: "csl",
+						cover: "http://www.bounb.com/favicon.ico",
+						time: ""
+					}]
+				},
+				created: function() {
+					mui.init({
+						pullRefresh: {
+							container: '#home',
+							down: {
+								type: "circle",
+								callback: this.pulldownRefresh
+							},
+							up: {
+								contentrefresh: '正在加载...',
+								callback: this.pullupRefresh
+							}
+						}
+					});
+				},
+				mounted: function() {
+					for(var i = 0; i < 10; i++) {
+						this.items.push({
+							guid: 123,
+							title: "标题123",
+							author: "csl",
+							cover: "http://www.bounb.com/favicon.ico",
+							time: ""
+						});
+					}
+				},
+				methods: {
+					pullupRefresh: function() {
+						console.log("pullupRefresh");
+						setTimeout(function() {
+							mui('#home').pullRefresh().endPullupToRefresh((++count > 2));
+							var data = {
+								guid: 789,
+								title: "标题789",
+								author: "csl",
+								cover: "http://www.bounb.com/favicon.ico",
+								time: ""
+							};
+							home.items.push(data);
+							//home.items = home.items.concat(data);
+						}, 1000);
+					},
+					pulldownRefresh: function() {
+						console.log("pulldownRefresh");
+						setTimeout(function() {
+							var data = [{
+								guid: 456,
+								title: "标题456",
+								author: "csl",
+								cover: "http://www.bounb.com/favicon.ico",
+								time: ""
+							}];
+							home.items = data.concat(home.items);
+							mui('#home').pullRefresh().endPulldownToRefresh();
+							mui.toast("为你推荐了1篇文章");
+						}, 1000);
+					},
+					open_detail: function() {
+						mui.toast("打开详情页");
+						//						var wv = mui.openWindowWithTitle({
+						//							url: '../login/index.html',
+						//							styles: {
+						//								'popGesture':'close'
+						//							}
+						//						}, {
+						//							title: { //标题配置
+						//								text: "详情", //标题文字
+						//							},
+						//							back: { //左上角返回箭头
+						//								image: {
+						//									base64Data: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='
+						//								}
+						//							}
+						//						});
+						//						var nw = plus.webview.create('../login/index.html', 'test', {
+						//							popGesture: 'close',
+						//							subNViews: [{
+						//								id: 'subnview1',
+						//								styles: {
+						//									top: '0px',
+						//									height: '44px',
+						//									backgroundColor: '#f7f7f7'
+						//								},
+						//								tags: [{
+						//									tag: 'img',
+						//									id: 'img',
+						//									src: '../../img/back.png',
+						//									position: {
+						//										top: '10px',
+						//										left: '10px',
+						//										width: '24px',
+						//										height: '24px'
+						//									}
+						//								}, {
+						//									tag: 'font',
+						//									id: 'font',
+						//									text: '详情',
+						//									textStyles: {
+						//										size: '18px'
+						//									}
+						//								}]
+						//							}]
+						//						});
+						//						nw.addEventListener('close', function() {
+						//							nw = null;
+						//							console.log("viewclose")
+						//						}, false);
+						//						nw.show('pop-in');
+						//						console.log("viewshow")
+					}
+				}
+			});
+		});
+	</script>
+
+</html>

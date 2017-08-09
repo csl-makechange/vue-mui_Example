@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta content="yes" name="apple-touch-fullscreen" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>引导页</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/base.css" />
+		<script src="../../js/requirejs2.0.min.js"></script>
+		<script src="../../js/requirejs.config.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<header class="mui-bar mui-bar-nav">
+				<h1 v-cloak class="mui-title">{{title}}</h1>
+			</header>
+			<div class="mui-content">
+                 <button v-on:tap="buttonfun">点击进入</button>
+			</div>
+		</div>
+	</body>
+	<script>
+		require(['common'], function() {
+			var Vue = require("vue");
+			new Vue({
+				el: "#app",
+				data: {
+					title: "引导页"
+				},
+				mounted: function() {
+					mui.init();
+				},
+				methods: {
+                    buttonfun:function(){
+                    	localStorage.setItem("$.guidflag","true");
+                    	mui.openWindow("../login/index.html");
+                    }
+				}
+			})
+		});
+	</script>
+
+</html>
